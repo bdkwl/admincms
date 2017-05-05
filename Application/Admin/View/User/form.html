@@ -1,0 +1,127 @@
+<extend name="Public/base"/>
+<block name="mycss">
+    <link rel="stylesheet" href="__PUBLIC__/plugins/webuploader/webuploader.css">
+</block>
+
+<block name="section-content">
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-10">
+                <div class="box box-info">
+                    <form action="{:U('User/store')}" method="post" class="form-horizontal">
+                        <input type="hidden" name="uid" value="<if condition='$userinfo'>{$userinfo.userid}</if>">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">用户名</label>
+                                <div class="col-sm-5">
+                                    <input class="form-control" type="text" name="username" placeholder="用户名" value="<if condition='$userinfo'>{$userinfo.username}</if>">
+                                </div>
+                                <div class="col-sm-offset-5"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">是否禁用</label>
+                                <div class="col-sm-3 col-sm-offset-1">
+                                    <label for="form_lock">
+                                        <div class="checkbox">
+                                            <input id="form_lock" type="checkbox" name="lock" value="1" <if condition="$userinfo['user_stats'] eq 0">checked</if> >是
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="col-sm-offset-5"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">密码</label>
+                                <div class="col-sm-5">
+                                    <input class="form-control" type="password" name="password" placeholder="密码">
+                                </div>
+                                <div class="col-sm-offset-5">{$tips.pwd}</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">重复密码</label>
+                                <div class="col-sm-5">
+                                    <input class="form-control" type="password" name="repwd" placeholder="请再次输入密码">
+                                </div>
+                                <div class="col-sm-offset-5">{$tips.repwd}</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">真实姓名</label>
+                                <div class="col-sm-5">
+                                    <input class="form-control" type="text" name="truename" placeholder="真实姓名" value="<if condition='$userinfo'>{$userinfo.truename}</if>">
+                                </div>
+                                <div class="col-sm-offset-5"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">邮箱</label>
+                                <div class="col-sm-5">
+                                    <input class="form-control" type="email" name="email" placeholder="邮箱" value="<if condition='$userinfo'>{$userinfo.email}</if>">
+                                </div>
+                                <div class="col-sm-offset-5"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">联系电话</label>
+                                <div class="col-sm-5">
+                                    <input class="form-control" type="tel" name="phone" placeholder="联系电话" value="<if condition='$userinfo'>{$userinfo.phone}</if>">
+                                </div>
+                                <div class="col-sm-offset-5"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">所属用户组</label>
+                                <div class="col-sm-5">
+                                    <select class="form-control" name="role" id="">
+                                        <option value="">请选择</option>
+                                        <volist name="rolelist" id="v">
+                                            <option value="{$v.roleid}" <if condition="$userinfo['role_id'] eq $v['roleid']">selected="selected"</if> >{$v.rolename}</option>
+                                        </volist>
+                                    </select>
+                                </div>
+                                <div class="col-sm-offset-5 tips"></div>
+                            </div>
+                            <if condition="$userinfo">
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">用户头像</label>
+                                <div class="col-sm-5">
+                                    <div class="col-xs-12 uploader-list">
+                                        <div id="uploader-preview" class="thumbnail col-sm-5">
+                                            <i class="fa fa-times-circle remove-picture"></i>
+                                            <notempty name="userinfo">
+                                                <img src="{$userinfo.avatar_url}" alt="用户头像">
+                                                <else/>
+                                                <img>
+                                            </notempty>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-12">
+                                        <div id="uploader-wrap">
+                                            <div id="fileList" class="uploader-list"></div><!--用来存放item-->
+                                            <div id="filePicker">选择图片</div>
+                                        </div>
+                                    </div>
+                                    <input id="uploader-input" type="hidden" class="form-control" name="avatar" value="{$userinfo.avatar}">
+                                </div>
+                            </div>
+
+                            </if>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label"></label>
+                                <div class="col-sm-5 btn-wrap-center">
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                    <a class="btn btn-default">取消</a>
+                                </div>
+                                <div class="col-sm-offset-5"></div>
+                            </div>
+                        </div><!-- box-body end -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</block>
+
+<block name="myjs">
+    <script src="__PUBLIC__/plugins/webuploader/webuploader.min.js"></script>
+    <script>
+        var serverUrl = "{:U('Upload/upload', ['d'=>'image','u'=>'avatar'])}";
+    </script>
+    <script src="__PUBLIC__/static/js/uploadjs.js"></script>
+</block>

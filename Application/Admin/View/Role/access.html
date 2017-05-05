@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>add acess</title>
+</head>
+<body>
+<form action="{:U('access')}" method="post">
+    <p>
+        权限title<input type="text" name="title">
+    </p>
+    <p>
+        权限路由 <input type="text" name="name" id="">
+    </p>
+    <p>
+        上一级
+        <select name="pid" id="">
+            <option value="0">顶级</option>
+            <volist name="access" id="v">
+                <option value="{$v.accessid}">{$v.title}</option>
+            </volist>
+        </select>
+    </p>
+    <p>
+        <input type="submit" value="sub">
+    </p>
+</form>
+</body>
+</html>

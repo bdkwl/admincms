@@ -1,0 +1,88 @@
+<extend name="Public/base"/>
+
+<block name="section-content">
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="col-xs-12 col-sm-8 clearfix">
+                            <div class="form-group">
+                                <a href="{:U('User/create')}" class="btn btn-primary">新增</a>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 clearfix">
+                            <form class="form" id="search_form" method="get" action="{:U('User/index')}">
+                                <div class="form-group">
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" name="keyword" class="search-input form-control" value="" placeholder="请输入UID/用户名/手机号">
+                                            <span class="input-group-btn"><a class="btn btn-default" onclick="javascript:document:search_form.submit();"><i class="fa fa-search"></i></a></span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div><!-- box-header end -->
+                    <div class="box-body table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th><input class="check-all" type="checkbox"></th>
+                                    <th>UID</th>
+                                    <th>用户名</th>
+                                    <th>真实姓名</th>
+                                    <th>邮箱</th>
+                                    <th>手机号</th>
+                                    <th>用户组</th>
+                                    <th>状态</th>
+                                    <th>登录次数</th>
+                                    <th>最后登录</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <volist name="list" id="v">
+                                <tr>
+                                    <td>
+                                        <input class="ids" type="checkbox" name="ids[]" value="{$v.userid}">
+                                    </td>
+                                    <td>{$v.userid}</td>
+                                    <td>{$v.username}</td>
+                                    <td>{$v.truename}</td>
+                                    <td>{$v.email}</td>
+                                    <td>{$v.phone}</td>
+                                    <td>{$v.role}</td>
+                                    <td>
+                                        <if condition="$v['user_stats'] eq 1">
+                                            <i class="fa fa-check-circle text-success"></i>&nbsp;&nbsp;开启
+                                            <else/><i class="fa fa-ban text-danger"></i>&nbsp;&nbsp;锁定
+                                        </if>
+                                    </td>
+                                    <td>{$v.loginnum}</td>
+                                    <td>
+                                        <if condition="$v['loginnum'] gt 0">
+                                        时间：{$v.lasttime|date="Y-m-d H:i:s", ###}<br>IP：{$v.lastip}
+                                            <else/>未有登录记录
+                                        </if>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="{:U('User/modify', ['id'=>$v['userid']])}" title="update" class="btn btn-default">编辑</a>
+                                            <a href="{:U('User/locklogin', [ 'uid'=>$v['userid'], 'stat'=> 1])}" title="active" class="btn btn-success">开启</a>
+                                            <a href="{:U('User/locklogin', [ 'uid'=>$v['userid'], 'stat'=> 0])}" title="lock" class="btn btn-warning">禁用</a>
+                                            <a href="{:U('User/del',[ 'uid'=> $v['userid'] ])}" onclick="return confirmDel();" title="delete" class="btn btn-danger">删除</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </volist>
+                        </table>
+                    </div><!-- box-body end -->
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin">
+                            {$page}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</block>
+
